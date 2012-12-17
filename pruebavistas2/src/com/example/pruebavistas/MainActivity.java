@@ -22,7 +22,7 @@ public class MainActivity extends Activity {
         WordText=(EditText)findViewById(R.id.editText1);
         
         final String[] datos =
-		        new String[]{"Spanish","English","French","swahili","Elem5"};
+		        new String[]{"Spanish","English","French","Swahili","Elem5"};
 		 
 		ArrayAdapter<String> adaptador =
 		        new ArrayAdapter<String>(this,
@@ -74,13 +74,8 @@ public class MainActivity extends Activity {
         Button cancel = (Button) findViewById(R.id.delete);
         cancel.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-            	
-            	Bundle bundle = new Bundle();
-            	bundle.putString("MyKey2","texto unl2");
-
-            	Intent myIntent = new Intent(view.getContext(), info.class);
-            	myIntent.putExtras(bundle);
-            	startActivity(myIntent);
+            	 WordText=(EditText)findViewById(R.id.editText1);
+            	 WordText.setText(null);
             	
             }
         });
