@@ -14,7 +14,7 @@ public class unlhandler extends Activity{
         setContentView(R.layout.unlview);
         StringBuilder unlphraparts = new StringBuilder();
         StringBuilder atribs = new StringBuilder();
-        unlphraparts.append("[HW]{ID} “UW” (ATTR,ATTR,…) <FLG,FRE,PRI>\n");
+        unlphraparts.append("Form of Word in UNL: [HW]{ID} “UW” (ATTR,ATTR,…) <FLG,FRE,PRI>\n");
         unlphraparts.append("An entry must end with a semicolon. <FLG,FRE,PRI> can be omitted.\n");
         unlphraparts.append("HW| headword of a language\n");
         unlphraparts.append("ID| identifier, can be empty\n");
@@ -38,14 +38,15 @@ public class unlhandler extends Activity{
         String wordorig = TakeData.getString("wordorig");
         String worddest = TakeData.getString("worddest");
         String desc = TakeData.getString("desc");
+        String UNLWord=TakeData.getString("UnlWord");
         TextView mytext1= (TextView) findViewById(R.id.TranslateWordUNL);
         TextView mytext2= (TextView) findViewById(R.id.DescrUNL);
         TextView mytext3= (TextView) findViewById(R.id.UNLDescription);
         TextView mytext4= (TextView) findViewById(R.id.phraseUNL);
         TextView mytext5= (TextView) findViewById(R.id.atribs);
-        mytext1.setText(wordorig + "->" + worddest );
-        mytext2.setText(desc);
-        mytext3.setText("UNL Atributes of the word -> " + unldesc);
+        mytext1.setText("Word in original Language, and word in destiny language: "+wordorig + "->" + worddest );
+        mytext2.setText("Description (destiny language): "+desc);
+        mytext3.setText("Universal Word with Atributes -> "+ UNLWord + " " + unldesc);
         mytext4.setText(unlphraparts.toString());
         mytext5.setText(atribs.toString());
 	}

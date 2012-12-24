@@ -1,7 +1,7 @@
 package com.example.pruebavistas;
 
-public class PalabraLista {
-    private String Palabra = "";
+public class WordList {
+    private String Word = "";
     private String Tipo = "";
     private String IDnumber = "";
     private String WordDest ="";
@@ -22,7 +22,7 @@ public class PalabraLista {
     }
     
     public String getWord() {
-        return Palabra;
+        return Word;
     }
     public String getWordDest() {
         return  WordDest;
@@ -53,8 +53,8 @@ public class PalabraLista {
     	this.typeNumber = typeNumber;
     }
     
-    public void setWord(String palabra) {
-    	Palabra = palabra;
+    public void setWord(String word) {
+    	Word = word;
     }
     
     public void setWordDest(String wordDest) {

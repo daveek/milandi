@@ -23,11 +23,11 @@ import static android.provider.BaseColumns._ID;
 * en la carpeta Assets
 * blog.findemor.es 06/02/2011
 **/
-public class BaseDatosHelper extends SQLiteOpenHelper {
+public class DataBaseHelper extends SQLiteOpenHelper {
  
         //La carpeta por defecto donde Android espera encontrar la Base de Datos de tu aplicación
         private static String DB_PATH = "/data/data/com.example.pruebavistas/";
-        private static String DB_NAME = "Prueba";
+        private static String DB_NAME = "MilandiDDBB";
         private SQLiteDatabase myDataBase;
  
         private final Context myContext;
@@ -38,18 +38,18 @@ public class BaseDatosHelper extends SQLiteOpenHelper {
          * Guarda una referencia al contexto para acceder a la carpeta assets de la aplicación y a los recursos
          * @param contexto
          **/
-        public BaseDatosHelper(Context contexto) {
+        public DataBaseHelper(Context context) {
  
-            super(contexto, DB_NAME, null, 1);
-            this.myContext = contexto;
+            super(context, DB_NAME, null, 1);
+            this.myContext = context;
         }
  
       /**
        * Crea una base de datos vacía en el sistema y la sobreescribe con la que hemos puesto en Assets
        **/
-        public void crearDataBase() throws IOException{
+        public void CreateDataBase() throws IOException{
  
-            boolean dbExist = comprobarBaseDatos();
+            boolean dbExist = CheckDataBase();
  
             if(dbExist){
                 //Si ya existe no hacemos nada
@@ -58,9 +58,9 @@ public class BaseDatosHelper extends SQLiteOpenHelper {
                 //de esta forma el Sistema nos permitirá sobreescribirla con la que tenemos en la carpeta Assets
                 this.getReadableDatabase();
                 try {
-                    copiarBaseDatos();
+                    CopyDataBase();
                 } catch (IOException e) {
-                    throw new Error("Error al copiar la Base de Datos");
+                    throw new Error("Error at copy Data Base");
                 }
             }
         }
@@ -69,7 +69,7 @@ public class BaseDatosHelper extends SQLiteOpenHelper {
          * Comprobamos si la base de datos existe
          * @return true si existe, false en otro caso
          **/
-        private boolean comprobarBaseDatos(){
+        private boolean CheckDataBase(){
             SQLiteDatabase checkDB = null;
             try{
                 String myPath = DB_PATH + DB_NAME;
@@ -89,7 +89,7 @@ public class BaseDatosHelper extends SQLiteOpenHelper {
          * Copia la base de datos desde la carpeta Assets sobre la base de datos vacía recién creada en la carpeta del sistema,
          * desde donde es accesible
          **/
-        private void copiarBaseDatos() throws IOException{
+        private void CopyDataBase() throws IOException{
  
             //Abrimos la BBDD de la carpeta Assets como un InputStream
             InputStream myInput = myContext.getAssets().open(DB_NAME);
@@ -116,7 +116,7 @@ public class BaseDatosHelper extends SQLiteOpenHelper {
         /**
          * Abre la base de datos
          **/
-        public void abrirBaseDatos() throws SQLException{
+        public void OpenDataBase() throws SQLException{
             String myPath = DB_PATH + "databases/" + DB_NAME;
             myDataBase = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY);
  
@@ -153,10 +153,10 @@ public class BaseDatosHelper extends SQLiteOpenHelper {
         
         
         
-         public ArrayList<PalabraLista> GetLibros(String Word, String LanguageOr, String LanguageDest){
-            ArrayList<PalabraLista> WordList1 = new ArrayList<PalabraLista>();
+         public ArrayList<WordList> GetLibros(String Word, String LanguageOr, String LanguageDest){
+            ArrayList<WordList> WordList1 = new ArrayList<WordList>();
             
-            ArrayList<PalabraLista> WordList2 = new ArrayList<PalabraLista>();
+            ArrayList<WordList> WordList2 = new ArrayList<WordList>();
            // Cursor wordTranslated = myDataBase.rawQuery("Select Word, IDWord, IDType from Word where IDWord ='238' and IDLanguage='2' and IDType='1'", null);
             Cursor Or = myDataBase.rawQuery("Select _id from Language where Name='" +LanguageOr + "'", null);
             Cursor Des = myDataBase.rawQuery("Select _id from Language where Name='" +LanguageDest + "'", null);
@@ -175,7 +175,7 @@ public class BaseDatosHelper extends SQLiteOpenHelper {
             //Iteramos a traves de los registros del cursor
             c.moveToFirst();
              while (c.isAfterLast() == false) {
-                PalabraLista WordAux = new PalabraLista();
+            	 WordList WordAux = new WordList();
           
                WordAux.setWord(c.getString(0));
                 WordAux.setIDnumber(c.getString(1));
@@ -186,14 +186,14 @@ public class BaseDatosHelper extends SQLiteOpenHelper {
              c.close();
          int i=0;
              while(i<WordList1.size()){
-            	 PalabraLista WordinList = WordList1.get(i); 
+            	 WordList WordinList = WordList1.get(i); 
             	 String queryrw="Select Word,IDWord,IDType from Word where Word.IDWord = '"+WordinList.getIDnumber()+"' and IDLanguage='"+Dest+"' and IDType='"+WordinList.getType()+"'";
-            	 String querydescription="Select Description from Description where IDType = '"+WordinList.getIDnumber()+"' and IDLanguage='"+Dest+"' and IDWord='"+WordinList.getType()+"'";
+            	 String querydescription="Select Description from Description where IDType = '"+WordinList.getType()+"' and IDLanguage='"+Dest+"' and IDWord='"+WordinList.getIDnumber()+"'";
             	 Cursor DescriptionTrans = myDataBase.rawQuery(querydescription, null);
             	 Cursor wordTranslated = myDataBase.rawQuery(queryrw, null);
             	 DescriptionTrans.moveToFirst();
             	wordTranslated.moveToFirst();
-            	 PalabraLista WordNewList = new PalabraLista();
+            	WordList WordNewList = new WordList();
             	 WordNewList.setIDnumber(wordTranslated.getString(1));
             	 WordNewList.setWordDest(wordTranslated.getString(0));
             	 WordNewList.setType(changeType(Integer.parseInt(wordTranslated.getString(2))));
@@ -230,13 +230,18 @@ public class BaseDatosHelper extends SQLiteOpenHelper {
 			return res;
          }
          
-         public PalabraLista GetUNL(PalabraLista WordinList){
+         public WordList GetUNL(WordList WordinList){
         	 int types=Typetoint(WordinList.getType());
-        	 String querydescription="Select Description from Description where IDType = '"+WordinList.getIDnumber()+"' and IDLanguage='4' and IDWord='"+types+"'";
+        	 String querydescription="Select Description from Description where IDType = '"+types+"' and IDLanguage='4' and IDWord='"+WordinList.getIDnumber()+"'";
+        	 String queryUNLword="Select Word from Word where IDType = '"+types+"' and IDLanguage='4' and IDWord='"+WordinList.getIDnumber()+"'";
+        	 
         	 Cursor c = myDataBase.rawQuery(querydescription, null);
+        	 Cursor w = myDataBase.rawQuery(queryUNLword, null);
         	 c.moveToFirst();
-        	 PalabraLista res= new PalabraLista();
+        	 w.moveToFirst();
+        	 WordList res= new WordList();
         	 res.setDescription(c.getString(0));
+        	 res.setWord(w.getString(0));
              
 			return res;
          }

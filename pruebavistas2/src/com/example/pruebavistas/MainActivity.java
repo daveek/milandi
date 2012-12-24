@@ -51,7 +51,7 @@ public class MainActivity extends Activity {
                   bundle.putString(MyKey,Word);
                   bundle.putString("Orig", Orig);
                   bundle.putString("Dest", Dest);
-                Intent myIntent = new Intent(view.getContext(), ControladorLista.class);
+                Intent myIntent = new Intent(view.getContext(), ListController.class);
                 myIntent.putExtras(bundle);
                 startActivityForResult(myIntent, 0);
             }

@@ -1,8 +1,9 @@
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/shape" >
 
         <TextView
             android:id="@+id/TranslateWordUNL"
@@ -17,25 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_below="@+id/textView1"
-            android:layout_marginTop="50dp"
-            android:text="TextView" />
-
-        <TextView
-            android:id="@+id/phraseUNL"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:text="TextView" />
-
-        <TextView
-            android:id="@+id/atribs"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/phraseUNL"
-            android:layout_marginTop="41dp"
+            android:layout_below="@+id/TranslateWordUNL"
             android:text="TextView" />
 
         <TextView
@@ -44,7 +27,25 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/DescrUNL"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="17dp"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/phraseUNL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/UNLDescription"
+            android:layout_marginTop="19dp"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/atribs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/phraseUNL"
+            android:layout_marginTop="20dp"
             android:text="TextView" />
 
     </RelativeLayout>
