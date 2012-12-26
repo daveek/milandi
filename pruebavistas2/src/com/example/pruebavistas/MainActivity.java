@@ -13,36 +13,41 @@ import android.widget.Spinner;
 public class MainActivity extends Activity {
 
 	final public static String MyKey = "mikey";
-	EditText WordText; //Cuadro de texto donde se inserta la cadéna
-    String Word;//Aquí guardaremos el contenido del cuadro de texto para pasarselo a la sigu
+	EditText WordText;
+    String Word;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         WordText=(EditText)findViewById(R.id.editText1);
         
-        final String[] datos =
+        // languajes of the spinner
+        final String[] languages =
 		        new String[]{"Spanish","English","French","Swahili","Elem5"};
-		 
-		ArrayAdapter<String> adaptador =
+		// set languages in the spinner 
+		ArrayAdapter<String> adapter =
 		        new ArrayAdapter<String>(this,
-		            android.R.layout.simple_spinner_item, datos);
+		            android.R.layout.simple_spinner_item, languages);
 		
 		final Spinner cmbLenOrig = (Spinner)findViewById(R.id.LangOrig);
 		 
-		adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		 
-		cmbLenOrig.setAdapter(adaptador);
+		cmbLenOrig.setAdapter(adapter);
 		
 		final Spinner cmbLenDest = (Spinner)findViewById(R.id.LangDest);
 		 
-		adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		 
-		cmbLenDest.setAdapter(adaptador);
+		cmbLenDest.setAdapter(adapter);
 
-        
-        Button next = (Button) findViewById(R.id.search);
-        next.setOnClickListener(new View.OnClickListener() {
+        /**
+         * Functionality of the search button
+         * take the selected language in the spinner
+         * we use bundle because we need to send information to the next view
+         */
+        Button search = (Button) findViewById(R.id.search);
+        search.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
             	  Bundle bundle = new Bundle();
             	  Word=WordText.getText().toString();
@@ -57,6 +62,10 @@ public class MainActivity extends Activity {
             }
         });
         
+        
+        /**
+         * Functionality of the information view
+         */
         Button information = (Button) findViewById(R.id.info);
         information.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {

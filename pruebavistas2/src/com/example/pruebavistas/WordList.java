@@ -1,15 +1,23 @@
 package com.example.pruebavistas;
 
 public class WordList {
+	
+	
+	//word selected
     private String Word = "";
-    private String Tipo = "";
+    //type of word, noun(1), adjective(2), adverb(3), verb(4)
+    private String Type = "";
+    //id of the word
     private String IDnumber = "";
+    //translated word
     private String WordDest ="";
+    //its the type of the word
     private String TypeName="";
+    // phrase asociated to the word translated
     private String Description="";
-    
-    
+    //description id
     private String iddesc="";
+    //
     private String typeNumber="";
     
     
@@ -32,7 +40,7 @@ public class WordList {
     }
 
     public String getType() {
-        return Tipo;
+        return Type;
     }
     
     public String getDescription() {
@@ -65,8 +73,8 @@ public class WordList {
     	this.IDnumber = IDnum;
     }
     
-    public void setType(String tipo) {
-    	Tipo = tipo;
+    public void setType(String type) {
+    	Type = type;
     }
     
     public void setTypeName(String typeName) {

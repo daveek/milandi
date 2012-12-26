@@ -25,22 +25,27 @@ public class ListController extends ListActivity {
 	ArrayList<WordList> MyListWords;
 	 public void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
-	        setContentView(R.layout.lista); //establecemos el Layout de esta Actividad
+	        setContentView(R.layout.lista); //set layout
 	        
-	        Bundle TakeData = getIntent().getExtras();//Creamos un objeto de tipo Bundle que guardará todos los datos recibidos
+	        /**
+	         * create a bundle and take the element of the other view
+	         */
+	        Bundle TakeData = getIntent().getExtras();
 	        WordText = TakeData.getString("mikey");
 	        Orig=TakeData.getString("Orig");
 	        Dest=TakeData.getString("Dest");
-	        //WordText=(EditText)findViewById(R.id.editText1);
+	     
 	        crearBBDD();
-	        ArrayList<WordList> Libros = getItems();
-	        // Entregamos la lista de Libros al adaptador de la lista en el Layout Lista.xml
-	        setListAdapter(new WordListAdapter(this, R.layout.lista_item, Libros));
+	        ArrayList<WordList> Words = getItems();
+	        // give the list of word to the adapter
+	        setListAdapter(new WordListAdapter(this, R.layout.lista_item, Words));
 	    }	
 	 
 	 private class WordListAdapter extends ArrayAdapter<WordList> {
 		 
-		    private ArrayList<WordList> items;
+
+		 
+		 private ArrayList<WordList> items;
 		 
 		    public WordListAdapter(Context context, int textViewResourceId, ArrayList<WordList> items) {
 		        super(context, textViewResourceId, items);
@@ -69,6 +74,7 @@ public class ListController extends ListActivity {
 		            	WordOrig.setText(Words.toString());
 		            }
 		            if (WordDest != null) {
+		            	//put the word and the translate word
 		            	WordDest.setText(word.getDescription());
 		            }
 		        }
@@ -89,26 +95,27 @@ public class ListController extends ListActivity {
 	 
 	 
 	 public ArrayList<WordList> getItems() {
-		   // ArrayList<PalabraLista> MiLista = new ArrayList<PalabraLista>();
+
 		 String Word = "Fan";
 		 String Word2;
 		 int LanguageOr=2;
 		 int LanguageDest=1;
-		    // Creamos los objetos Libro
+
 		    myBBDDHelper.OpenDataBase();
-			//EditText WordText=(EditText)findViewById(R.id.editText1);
-		//	Word2=WordText.getText().toString();
-	        //Consultamos los datos
-		    MyListWords = myBBDDHelper.GetLibros(WordText, Orig, Dest);
-	        //Cerramos la conexion
+
+	        //take the words
+		    MyListWords = myBBDDHelper.GetWords(WordText, Orig, Dest);
+	        //Close
 	        myBBDDHelper.close();
-	        //Devolvemos los datos
+	        //retunr words
 	        return  MyListWords;
 		}
 	 
 	 
 	 
-	// @Override public void onListItemClick
+	/**
+	 * take the position of the item on the listj
+	 */
 	 
 	 @Override protected void onListItemClick(ListView listView,
              View view,int position, long id) {
@@ -117,31 +124,29 @@ super.onListItemClick(listView, view, position, id);
 
 Object o = getListAdapter().getItem(position);
 
-Toast.makeText(this, "Selección: "+ Integer.toString(position)
+//Toast.makeText(this, "Selección: "+ Integer.toString(position)
 
-+  " - "+ o.toString(),Toast.LENGTH_LONG).show();
+//+  " - "+ o.toString(),Toast.LENGTH_LONG).show();
 
 
-//View vi=new View(null);
-WordList myPalabraLista = new WordList();
-myPalabraLista = MyListWords.get(position);
+
+WordList myWordList = new WordList();
+myWordList = MyListWords.get(position);
 
 myBBDDHelper.OpenDataBase();
-//EditText WordText=(EditText)findViewById(R.id.editText1);
-//	Word2=WordText.getText().toString();
-//Consultamos los datos
-WordList myPalabraListaAux = myBBDDHelper.GetUNL(myPalabraLista);
-//Cerramos la conexion
+
+WordList myWordListAux = myBBDDHelper.GetUNL(myWordList);
+
 myBBDDHelper.close();
 
-//PalabraLista myPalabraListaAux= GetUNL(myPalabraLista);
-Bundle bundle = new Bundle();
 
-bundle.putString("descunl",myPalabraListaAux.getDescription());
-bundle.putString("wordorig",myPalabraLista.getWord());
-bundle.putString("worddest",myPalabraLista.getWordDest());
-bundle.putString("desc",myPalabraLista.getDescription());
-bundle.putString("UnlWord",myPalabraListaAux.getWord());
+Bundle bundle = new Bundle();
+//send the information to the next view UNL
+bundle.putString("descunl",myWordListAux.getDescription());
+bundle.putString("wordorig",myWordList.getWord());
+bundle.putString("worddest",myWordList.getWordDest());
+bundle.putString("desc",myWordList.getDescription());
+bundle.putString("UnlWord",myWordListAux.getWord());
 
 Intent myIntent = new Intent(ListController.this, unlhandler.class);
 myIntent.putExtras(bundle);

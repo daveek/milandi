@@ -1,10 +1,10 @@
 <resources>
 
-    <string name="app_name">PruebaVistas</string>
+    <string name="app_name">Milandi</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">Milandi</string>
     <string name="hello">Hola Arda!</string>
-    <string name="lista_vacia">No hay elementos en la lista.</string>
+    <string name="lista_vacia">Dont found coincidence.</string>
 
 </resources>

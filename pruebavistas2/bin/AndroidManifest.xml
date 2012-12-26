@@ -20,7 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ControladorLista"></activity>
+        <activity android:name=".ListController"></activity>
          <activity android:name=".unlhandler"></activity>
          <activity android:name=".info"></activity>
     </application>

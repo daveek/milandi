@@ -19,13 +19,13 @@ import android.database.sqlite.SQLiteOpenHelper;
 import static android.provider.BaseColumns._ID;
  
 /**
-* Clase que facilita el acceso a una Base de Datos SQLite creando la Base de datos a partir de un fichero
-* en la carpeta Assets
+*Class that provides access to a database SQLite 
+*Database created from a file in the Assets folder
 * blog.findemor.es 06/02/2011
 **/
 public class DataBaseHelper extends SQLiteOpenHelper {
  
-        //La carpeta por defecto donde Android espera encontrar la Base de Datos de tu aplicación
+       
         private static String DB_PATH = "/data/data/com.example.pruebavistas/";
         private static String DB_NAME = "MilandiDDBB";
         private SQLiteDatabase myDataBase;
@@ -34,8 +34,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
  
         /**
          * Constructor
-         *
-         * Guarda una referencia al contexto para acceder a la carpeta assets de la aplicación y a los recursos
+         *Save a reference to contect to acces the dir assets and take the database
          * @param contexto
          **/
         public DataBaseHelper(Context context) {
@@ -45,17 +44,17 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
  
       /**
-       * Crea una base de datos vacía en el sistema y la sobreescribe con la que hemos puesto en Assets
+       * Create a empty database and overwrite this with our database
        **/
         public void CreateDataBase() throws IOException{
  
             boolean dbExist = CheckDataBase();
  
             if(dbExist){
-                //Si ya existe no hacemos nada
+                //if exist dont do nothing
             }else{
-                //Si no existe, creamos una nueva Base de datos en la carpeta por defecto de nuestra aplicación,
-                //de esta forma el Sistema nos permitirá sobreescribirla con la que tenemos en la carpeta Assets
+            	//If not exist, create a new database in the folder of the aplication
+                //later we overwrite the database
                 this.getReadableDatabase();
                 try {
                     CopyDataBase();
@@ -66,8 +65,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
  
         /**
-         * Comprobamos si la base de datos existe
-         * @return true si existe, false en otro caso
+         * check the existence od the database
+         * @return true if exist, else false
          **/
         private boolean CheckDataBase(){
             SQLiteDatabase checkDB = null;
@@ -75,7 +74,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 String myPath = DB_PATH + DB_NAME;
                 checkDB = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY);
             }catch(SQLiteException e){
-                //No existe
+                //no exist
             }
  
             if(checkDB != null){
@@ -86,35 +85,35 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
  
         /**
-         * Copia la base de datos desde la carpeta Assets sobre la base de datos vacía recién creada en la carpeta del sistema,
-         * desde donde es accesible
+         * Copy the new database overwriting the old database.
+         * 
          **/
         private void CopyDataBase() throws IOException{
  
-            //Abrimos la BBDD de la carpeta Assets como un InputStream
+            //open database from folder assests
             InputStream myInput = myContext.getAssets().open(DB_NAME);
  
-            //Carpeta de destino (donde hemos creado la BBDD vacia)
+            //Destiny folder
             String outFileName = DB_PATH + "databases/" + DB_NAME;
  
-            //Abrimos la BBDD vacia como OutputStream
+            //Open empty database
             OutputStream myOutput = new FileOutputStream(outFileName);
  
-            //Transfiere los Bytes entre el Stream de entrada y el de Salida
+            //Copy database
             byte[] buffer = new byte[1024];
             int length;
             while ((length = myInput.read(buffer))>0){
                 myOutput.write(buffer, 0, length);
             }
  
-            //Cerramos los ficheros abiertos
+            //close files
             myOutput.flush();
             myOutput.close();
             myInput.close();
         }
  
         /**
-         * Abre la base de datos
+         * Open Database
          **/
         public void OpenDataBase() throws SQLException{
             String myPath = DB_PATH + "databases/" + DB_NAME;
@@ -123,7 +122,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
  
         /**
-         * Cierra la base de datos
+         * close Database
          **/
         @Override
         public synchronized void close() {
@@ -135,32 +134,32 @@ public class DataBaseHelper extends SQLiteOpenHelper {
  
         @Override
         public void onCreate(SQLiteDatabase db) {
-            //No usamos este método
+            //not used
         }
  
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-            //No usamos este método
+            //Not used
         }
  
-        //Podemos añadir métodos públicos que accedan al contenido de la base de datos,
-        //para realizar consultas, u operaciones CRUD (create, read, update, delete)
+
         
   
         /*
-         * Obtiene todos los libros desde la Base de Datos
+         * Take all the words searched
          */
         
         
         
-         public ArrayList<WordList> GetLibros(String Word, String LanguageOr, String LanguageDest){
+         public ArrayList<WordList> GetWords(String Word, String LanguageOr, String LanguageDest){
             ArrayList<WordList> WordList1 = new ArrayList<WordList>();
-            
             ArrayList<WordList> WordList2 = new ArrayList<WordList>();
-           // Cursor wordTranslated = myDataBase.rawQuery("Select Word, IDWord, IDType from Word where IDWord ='238' and IDLanguage='2' and IDType='1'", null);
+          
+            
+            //transform the IDLanguage into a text name
             Cursor Or = myDataBase.rawQuery("Select _id from Language where Name='" +LanguageOr + "'", null);
             Cursor Des = myDataBase.rawQuery("Select _id from Language where Name='" +LanguageDest + "'", null);
-           // Cursor random = myDataBase.rawQuery("Select IDWord, Word from Language where IDWord='238' and IDLanguage='2'", null);
+         
             
             Or.moveToFirst();
             String Orig=Or.getString(0);
@@ -168,11 +167,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             Des.moveToFirst();
             String Dest=Des.getString(0);
             Des.close();
+            
+            //search the words
             Cursor c = myDataBase.rawQuery("Select Word, IDWord, IDType from Word where Word.Word like '%"+Word+"%' and IDLanguage='"+Orig+"'", null);
          
    
          
-            //Iteramos a traves de los registros del cursor
+            //enter words in the list
             c.moveToFirst();
              while (c.isAfterLast() == false) {
             	 WordList WordAux = new WordList();
@@ -186,14 +187,17 @@ public class DataBaseHelper extends SQLiteOpenHelper {
              c.close();
          int i=0;
              while(i<WordList1.size()){
-            	 WordList WordinList = WordList1.get(i); 
+            	 WordList WordinList = WordList1.get(i);
+            	 //query for translate the word
             	 String queryrw="Select Word,IDWord,IDType from Word where Word.IDWord = '"+WordinList.getIDnumber()+"' and IDLanguage='"+Dest+"' and IDType='"+WordinList.getType()+"'";
+            	//query for take the translated description
             	 String querydescription="Select Description from Description where IDType = '"+WordinList.getType()+"' and IDLanguage='"+Dest+"' and IDWord='"+WordinList.getIDnumber()+"'";
             	 Cursor DescriptionTrans = myDataBase.rawQuery(querydescription, null);
             	 Cursor wordTranslated = myDataBase.rawQuery(queryrw, null);
             	 DescriptionTrans.moveToFirst();
             	wordTranslated.moveToFirst();
             	WordList WordNewList = new WordList();
+            	//insert the word and the description in the new list.
             	 WordNewList.setIDnumber(wordTranslated.getString(1));
             	 WordNewList.setWordDest(wordTranslated.getString(0));
             	 WordNewList.setType(changeType(Integer.parseInt(wordTranslated.getString(2))));
@@ -203,15 +207,16 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             	 WordNewList.settypeNumber(WordinList.getIDnumber());
             	 WordList2.add(WordNewList);
             	 wordTranslated.close();
+            	 DescriptionTrans.close();
             	 i++;
              }
              
              return WordList2;
          }
          
-         private String changeType(int numero){
+         private String changeType(int number){
         	 String res=" ";
-        	 switch (numero) {
+        	 switch (number) {
 			case 1:
 				res=("Noun");
 				break;
@@ -232,6 +237,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
          
          public WordList GetUNL(WordList WordinList){
         	 int types=Typetoint(WordinList.getType());
+        	 //querys for search the UNL word and the Atributes of UNL word
         	 String querydescription="Select Description from Description where IDType = '"+types+"' and IDLanguage='4' and IDWord='"+WordinList.getIDnumber()+"'";
         	 String queryUNLword="Select Word from Word where IDType = '"+types+"' and IDLanguage='4' and IDWord='"+WordinList.getIDnumber()+"'";
         	 
@@ -242,9 +248,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         	 WordList res= new WordList();
         	 res.setDescription(c.getString(0));
         	 res.setWord(w.getString(0));
-             
+             c.close();
+             w.close();
 			return res;
          }
+         
+         
+         
          
          private int Typetoint(String type){
         	 if(type.equals("Noun")) return 1;
