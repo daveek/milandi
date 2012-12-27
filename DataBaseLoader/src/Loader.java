@@ -18,7 +18,36 @@ import jxl.read.biff.BiffException;
 
 public class Loader {
 	
-	String ruta = "C:\\Users\\Javi\\workspace\\DataBaseLoader\\src\\Prueba";
+	
+	String dataPath;
+	String sqlPath;
+	
+	public Loader(String DataPath, String SqlPath){
+		dataPath=DataPath;
+		sqlPath=SqlPath;
+	}
+	
+	
+	public String Createpath(String Path){
+		StringBuilder newPath = new StringBuilder();
+		if(Path.contains("\\")){
+			
+			newPath.append(Path);
+			int i=0;
+			int lon = newPath.length();
+			while(i<Path.length()){//word.charAt(i)!='\0'){
+			//for(int i=0; i<lon-2;i++){
+				if( Path.charAt(i)=='\\'){
+					newPath.insert(i+1, '\\');
+				i++;
+				}
+				i++;
+			}
+		}
+		return newPath.toString();
+	}
+	
+	String Path;// = "C:\\Users\\Javi\\workspace\\DataBaseLoader\\src\\MilandiDDBB";
 
 	List<Word> ListWords = null;
 	List<Description> ListDescription = null;
@@ -30,12 +59,13 @@ public class Loader {
 		
 		
 		
-		 String archivo="C:\\Users\\Javi\\workspace\\DataBaseLoader\\src\\EspFrenIng.xls";
+		 String PathData;//="C:\\Users\\Javi\\workspace\\DataBaseLoader\\src\\EspFrenIng.xls";
+		 PathData=Createpath(dataPath);
 		 
 	        //Creamos un Workbook para cargar el XLS en memoria 
 	        Workbook workbook = null;
 			try {
-				workbook = Workbook.getWorkbook(new File(archivo));
+				workbook = Workbook.getWorkbook(new File(PathData));
 			} catch (BiffException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -88,12 +118,13 @@ public List<Description> LoadColumDescription(int row, int column, int sheetnum,
 		
 		
 		
-		 String archivo="C:\\Users\\javi\\workspace\\DataBaseLoader\\src\\EspFrenIng.xls";
+		 String PathData;//="C:\\Users\\Javi\\workspace\\DataBaseLoader\\src\\EspFrenIng.xls";
+		 PathData=Createpath(dataPath);
 		 
 	        //Creamos un Workbook para cargar el XLS en memoria 
 	        Workbook workbook = null;
 			try {
-				workbook = Workbook.getWorkbook(new File(archivo));
+				workbook = Workbook.getWorkbook(new File( PathData));
 			} catch (BiffException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -121,7 +152,7 @@ public List<Description> LoadColumDescription(int row, int column, int sheetnum,
 	                //Obtenemos el valor de la celda
 	            	ValueCell= ActualCell.getContents();
 	            	ValueCell=validateWord1(ValueCell);
-	            	ValueCell=validateWord2(ValueCell);
+	            	//ValueCell=validateWord2(ValueCell);
 	            	Description newDescription = new Description(sheetnum+1, IDLanguage, x-1, ValueCell, x-1);
 	            	
 	              //   System.out.print(ValueCell+"|");
@@ -143,7 +174,9 @@ public List<Description> LoadColumDescription(int row, int column, int sheetnum,
 		Statement stat = null;
 		try {
 			Class.forName("org.sqlite.JDBC");
-		 conn = DriverManager.getConnection("jdbc:sqlite:"+ ruta);
+			 String PathSql;//="C:\\Users\\Javi\\workspace\\DataBaseLoader\\src\\EspFrenIng.xls";
+			 PathSql=Createpath(sqlPath);
+		 conn = DriverManager.getConnection("jdbc:sqlite:"+ PathSql);
 		 stat = conn.createStatement();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -166,7 +199,9 @@ public List<Description> LoadColumDescription(int row, int column, int sheetnum,
 		Statement stat = null;
 		try {
 			Class.forName("org.sqlite.JDBC");
-		 conn = DriverManager.getConnection("jdbc:sqlite:"+ ruta);
+			String PathSql;//="C:\\Users\\Javi\\workspace\\DataBaseLoader\\src\\EspFrenIng.xls";
+			 PathSql=Createpath(sqlPath);
+		 conn = DriverManager.getConnection("jdbc:sqlite:"+ PathSql);
 		 stat = conn.createStatement();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -233,7 +268,9 @@ public List<Description> LoadColumDescription(int row, int column, int sheetnum,
 		Statement stat = null;
 		try {
 			Class.forName("org.sqlite.JDBC");
-		 conn = DriverManager.getConnection("jdbc:sqlite:"+ ruta);
+			String PathSql;//="C:\\Users\\Javi\\workspace\\DataBaseLoader\\src\\EspFrenIng.xls";
+			 PathSql=Createpath(sqlPath);
+		 conn = DriverManager.getConnection("jdbc:sqlite:"+ PathSql);
 		 stat = conn.createStatement();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -250,7 +287,9 @@ public List<Description> LoadColumDescription(int row, int column, int sheetnum,
 		Statement stat = null;
 		try {
 			Class.forName("org.sqlite.JDBC");
-		 conn = DriverManager.getConnection("jdbc:sqlite:"+ ruta);
+			String PathSql;//="C:\\Users\\Javi\\workspace\\DataBaseLoader\\src\\EspFrenIng.xls";
+			 PathSql=Createpath(sqlPath);
+		 conn = DriverManager.getConnection("jdbc:sqlite:"+ PathSql);
 		 stat = conn.createStatement();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -274,7 +313,9 @@ public List<Description> LoadColumDescription(int row, int column, int sheetnum,
 		Statement stat = null;
 		try {
 			Class.forName("org.sqlite.JDBC");
-		 conn = DriverManager.getConnection("jdbc:sqlite:"+ ruta);
+			String PathSql;//="C:\\Users\\Javi\\workspace\\DataBaseLoader\\src\\EspFrenIng.xls";
+			 PathSql=Createpath(sqlPath);
+		 conn = DriverManager.getConnection("jdbc:sqlite:"+ PathSql);
 		 stat = conn.createStatement();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -299,7 +340,9 @@ public List<Description> LoadColumDescription(int row, int column, int sheetnum,
 		Statement stat = null;
 		try {
 			Class.forName("org.sqlite.JDBC");
-		 conn = DriverManager.getConnection("jdbc:sqlite:"+ ruta);
+			String PathSql;//="C:\\Users\\Javi\\workspace\\DataBaseLoader\\src\\EspFrenIng.xls";
+			 PathSql=Createpath(sqlPath);
+		 conn = DriverManager.getConnection("jdbc:sqlite:"+ PathSql);
 		 stat = conn.createStatement();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -318,7 +361,9 @@ public List<Description> LoadColumDescription(int row, int column, int sheetnum,
 		Statement stat = null;
 		try {
 			Class.forName("org.sqlite.JDBC");
-		 conn = DriverManager.getConnection("jdbc:sqlite:"+ ruta);
+			String PathSql;//="C:\\Users\\Javi\\workspace\\DataBaseLoader\\src\\EspFrenIng.xls";
+			 PathSql=Createpath(sqlPath);
+		 conn = DriverManager.getConnection("jdbc:sqlite:"+ PathSql);
 		 stat = conn.createStatement();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -348,7 +393,9 @@ public List<Description> LoadColumDescription(int row, int column, int sheetnum,
 		Statement stat = null;
 		try {
 			Class.forName("org.sqlite.JDBC");
-		 conn = DriverManager.getConnection("jdbc:sqlite:"+ ruta);
+			String PathSql;//="C:\\Users\\Javi\\workspace\\DataBaseLoader\\src\\EspFrenIng.xls";
+			 PathSql=Createpath(sqlPath);
+		 conn = DriverManager.getConnection("jdbc:sqlite:"+ PathSql);
 		 stat = conn.createStatement();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
