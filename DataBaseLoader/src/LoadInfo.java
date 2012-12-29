@@ -10,16 +10,17 @@ public class LoadInfo {
 	int language;
 	
 	public LoadInfo(String DataPath, String SqlPath, int column, int language){
-		dataPath=DataPath;
-		sqlPath=SqlPath;
+		this.dataPath=DataPath;
+		this.sqlPath=SqlPath;
 		this.column=column;
 		this.language=language;
 	}
 	
 	
 	
-	Loader miloader = new Loader(dataPath, sqlPath);
+	
 	public void loadWords() throws SQLException{
+		Loader miloader = new Loader(dataPath, sqlPath);
 	List<Word> milist01=miloader.LoadColum(2, column,0,language);
 	List<Word> milist11=miloader.LoadColum(2, column,1,language);
 	List<Word> milist21=miloader.LoadColum(2, column,2,language);
@@ -30,6 +31,7 @@ public class LoadInfo {
 	miloader.InsertWords(milist31,1);
 	}
 	public void loadDescription() throws SQLException{
+		Loader miloader = new Loader(dataPath, sqlPath);
 	List<Description> milistDescription01=miloader.LoadColumDescription(2, column, 0, language);
 	List<Description> milistDescription11=miloader.LoadColumDescription(2, column, 1, language);
 	List<Description> milistDescription21=miloader.LoadColumDescription(2, column, 2, language);
@@ -39,4 +41,16 @@ public class LoadInfo {
 	miloader.InsertDescriptions(milistDescription21, 1);
 	miloader.InsertDescriptions(milistDescription31, 1);
 	}
+	
+	public void insertLang(int id, String Name) throws SQLException{
+		Loader miLoader = new Loader(dataPath, sqlPath);
+		miLoader.insertLanguage(id, Name);
+	}
+	
+	
+	public void deleteLang(int id) throws SQLException{
+		Loader miLoader = new Loader(dataPath, sqlPath);
+		miLoader.DeleteLanguage(id);
+	}
+	
 }

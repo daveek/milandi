@@ -28,24 +28,7 @@ public class Loader {
 	}
 	
 	
-	public String Createpath(String Path){
-		StringBuilder newPath = new StringBuilder();
-		if(Path.contains("\\")){
-			
-			newPath.append(Path);
-			int i=0;
-			int lon = newPath.length();
-			while(i<Path.length()){//word.charAt(i)!='\0'){
-			//for(int i=0; i<lon-2;i++){
-				if( Path.charAt(i)=='\\'){
-					newPath.insert(i+1, '\\');
-				i++;
-				}
-				i++;
-			}
-		}
-		return newPath.toString();
-	}
+	
 	
 	String Path;// = "C:\\Users\\Javi\\workspace\\DataBaseLoader\\src\\MilandiDDBB";
 
@@ -60,12 +43,12 @@ public class Loader {
 		
 		
 		 String PathData;//="C:\\Users\\Javi\\workspace\\DataBaseLoader\\src\\EspFrenIng.xls";
-		 PathData=Createpath(dataPath);
+		
 		 
 	        //Creamos un Workbook para cargar el XLS en memoria 
 	        Workbook workbook = null;
 			try {
-				workbook = Workbook.getWorkbook(new File(PathData));
+				workbook = Workbook.getWorkbook(new File(dataPath));
 			} catch (BiffException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -119,12 +102,12 @@ public List<Description> LoadColumDescription(int row, int column, int sheetnum,
 		
 		
 		 String PathData;//="C:\\Users\\Javi\\workspace\\DataBaseLoader\\src\\EspFrenIng.xls";
-		 PathData=Createpath(dataPath);
+		
 		 
 	        //Creamos un Workbook para cargar el XLS en memoria 
 	        Workbook workbook = null;
 			try {
-				workbook = Workbook.getWorkbook(new File( PathData));
+				workbook = Workbook.getWorkbook(new File( dataPath));
 			} catch (BiffException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -153,7 +136,7 @@ public List<Description> LoadColumDescription(int row, int column, int sheetnum,
 	            	ValueCell= ActualCell.getContents();
 	            	ValueCell=validateWord1(ValueCell);
 	            	//ValueCell=validateWord2(ValueCell);
-	            	Description newDescription = new Description(sheetnum+1, IDLanguage, x-1, ValueCell, x-1);
+	            	Description newDescription = new Description(x-1, IDLanguage, x-1, ValueCell, sheetnum+1);
 	            	
 	              //   System.out.print(ValueCell+"|");
 	            	ListDescription.add(newDescription);
@@ -175,8 +158,8 @@ public List<Description> LoadColumDescription(int row, int column, int sheetnum,
 		try {
 			Class.forName("org.sqlite.JDBC");
 			 String PathSql;//="C:\\Users\\Javi\\workspace\\DataBaseLoader\\src\\EspFrenIng.xls";
-			 PathSql=Createpath(sqlPath);
-		 conn = DriverManager.getConnection("jdbc:sqlite:"+ PathSql);
+			
+		 conn = DriverManager.getConnection("jdbc:sqlite:"+ sqlPath);
 		 stat = conn.createStatement();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -200,8 +183,8 @@ public List<Description> LoadColumDescription(int row, int column, int sheetnum,
 		try {
 			Class.forName("org.sqlite.JDBC");
 			String PathSql;//="C:\\Users\\Javi\\workspace\\DataBaseLoader\\src\\EspFrenIng.xls";
-			 PathSql=Createpath(sqlPath);
-		 conn = DriverManager.getConnection("jdbc:sqlite:"+ PathSql);
+	
+		 conn = DriverManager.getConnection("jdbc:sqlite:"+sqlPath);
 		 stat = conn.createStatement();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -269,8 +252,8 @@ public List<Description> LoadColumDescription(int row, int column, int sheetnum,
 		try {
 			Class.forName("org.sqlite.JDBC");
 			String PathSql;//="C:\\Users\\Javi\\workspace\\DataBaseLoader\\src\\EspFrenIng.xls";
-			 PathSql=Createpath(sqlPath);
-		 conn = DriverManager.getConnection("jdbc:sqlite:"+ PathSql);
+		
+		 conn = DriverManager.getConnection("jdbc:sqlite:"+ sqlPath);
 		 stat = conn.createStatement();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -282,14 +265,55 @@ public List<Description> LoadColumDescription(int row, int column, int sheetnum,
 	}
 	
 	
+	
+	
+	public void insertLanguage(int idLanguage, String nameLanguage) throws SQLException{
+		Connection conn = null;
+		Statement stat = null;
+		try {
+			Class.forName("org.sqlite.JDBC");
+			String PathSql;//="C:\\Users\\Javi\\workspace\\DataBaseLoader\\src\\EspFrenIng.xls";
+		
+		 conn = DriverManager.getConnection("jdbc:sqlite:"+ sqlPath);
+		 stat = conn.createStatement();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String query= "'" + idLanguage  + "','" + nameLanguage + "'";
+		stat.executeUpdate("insert into Language (_id, Name) Values ("+ query +  ")");
+		stat.close();
+	}
+	
+	
+	public void DeleteLanguage(int idLanguage) throws SQLException{
+		Connection conn = null;
+		Statement stat = null;
+		try {
+			Class.forName("org.sqlite.JDBC");
+			String PathSql;//="C:\\Users\\Javi\\workspace\\DataBaseLoader\\src\\EspFrenIng.xls";
+		
+		 conn = DriverManager.getConnection("jdbc:sqlite:"+ sqlPath);
+		 stat = conn.createStatement();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		stat.executeUpdate("delete from Language where _id='"+idLanguage+"'");
+		stat.executeUpdate("delete from Word where IDLanguage='"+idLanguage+"'");
+		stat.executeUpdate("delete from Description where IDLanguage='"+idLanguage+"'");
+		stat.close();
+	}
+	
 	public int LastIdRealDescription() throws SQLException{
 		Connection conn = null;
 		Statement stat = null;
 		try {
 			Class.forName("org.sqlite.JDBC");
 			String PathSql;//="C:\\Users\\Javi\\workspace\\DataBaseLoader\\src\\EspFrenIng.xls";
-			 PathSql=Createpath(sqlPath);
-		 conn = DriverManager.getConnection("jdbc:sqlite:"+ PathSql);
+
+		 conn = DriverManager.getConnection("jdbc:sqlite:"+ sqlPath);
 		 stat = conn.createStatement();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -314,8 +338,8 @@ public List<Description> LoadColumDescription(int row, int column, int sheetnum,
 		try {
 			Class.forName("org.sqlite.JDBC");
 			String PathSql;//="C:\\Users\\Javi\\workspace\\DataBaseLoader\\src\\EspFrenIng.xls";
-			 PathSql=Createpath(sqlPath);
-		 conn = DriverManager.getConnection("jdbc:sqlite:"+ PathSql);
+	
+		 conn = DriverManager.getConnection("jdbc:sqlite:"+ sqlPath);
 		 stat = conn.createStatement();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -341,8 +365,8 @@ public List<Description> LoadColumDescription(int row, int column, int sheetnum,
 		try {
 			Class.forName("org.sqlite.JDBC");
 			String PathSql;//="C:\\Users\\Javi\\workspace\\DataBaseLoader\\src\\EspFrenIng.xls";
-			 PathSql=Createpath(sqlPath);
-		 conn = DriverManager.getConnection("jdbc:sqlite:"+ PathSql);
+	
+		 conn = DriverManager.getConnection("jdbc:sqlite:"+ sqlPath);
 		 stat = conn.createStatement();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -362,8 +386,8 @@ public List<Description> LoadColumDescription(int row, int column, int sheetnum,
 		try {
 			Class.forName("org.sqlite.JDBC");
 			String PathSql;//="C:\\Users\\Javi\\workspace\\DataBaseLoader\\src\\EspFrenIng.xls";
-			 PathSql=Createpath(sqlPath);
-		 conn = DriverManager.getConnection("jdbc:sqlite:"+ PathSql);
+			
+		 conn = DriverManager.getConnection("jdbc:sqlite:"+ sqlPath);
 		 stat = conn.createStatement();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -394,8 +418,8 @@ public List<Description> LoadColumDescription(int row, int column, int sheetnum,
 		try {
 			Class.forName("org.sqlite.JDBC");
 			String PathSql;//="C:\\Users\\Javi\\workspace\\DataBaseLoader\\src\\EspFrenIng.xls";
-			 PathSql=Createpath(sqlPath);
-		 conn = DriverManager.getConnection("jdbc:sqlite:"+ PathSql);
+		
+		 conn = DriverManager.getConnection("jdbc:sqlite:"+ sqlPath);
 		 stat = conn.createStatement();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -407,6 +431,7 @@ public List<Description> LoadColumDescription(int row, int column, int sheetnum,
 			Description myInsertDescription=ListDescription.get(i);
 			//myInsertDescription.IDDescription=myInsertDescription.IDDescription+IDDescriptionsNew;
 			myInsertDescription.IDDescriptionAux=myInsertDescription.IDDescriptionAux+LastID;
+			myInsertDescription.IDWord=myInsertDescription.IDWord+IDDescriptionsNew;
 			//myInsertDescription.IDWord=myInsertDescription.IDDescription;
 			//String query= "'" + myInsertWord.IDType  + "','" + myInsertWord.IDWord + "','" + myInsertWord.IDLanguage + "','" + myInsertWord.IDWordAux + "',\"" + myInsertWord.Word + "\",'" + myInsertWord.IDDescription +"'";
 			//stat.executeQuery("insert into word (IDType, IDWord, IDLanguage,IDWordAux, Word, IDDescription) Values ("+ query +  ")");

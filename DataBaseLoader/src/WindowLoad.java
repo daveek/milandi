@@ -8,7 +8,7 @@ public class WindowLoad extends JFrame {
         initComponents(); }
 
    private void initComponents() {
-		setTitle("DEMO POR INFORUX");
+		setTitle("DataBase Loader");
 		setResizable(false);
 		jfcLoadExc = new JFileChooser();
 		jfcLoadDB = new JFileChooser();
@@ -18,13 +18,26 @@ public class WindowLoad extends JFrame {
         jbExaminar = new  JButton();
         jbLExc = new  JButton();
         jbLoad = new  JButton();
+        jbDelete = new  JButton();
         jPanel3 = new  JPanel();
         jDesktopPane1 = new  JDesktopPane();
-
+    	 InsertLanguage = new JButton();
+     Delete = new JButton();
+	 LanguageName= new JTextField();
+	 LanguageId= new JTextField();
+	LanguageIdDelete= new JTextField();
+	 LanguageIdVocabulary= new JTextField();
+	LanguageColumn= new JTextField();
+	LanguageIdVocabulary2= new JTextField();
+	LanguageColumn2= new JTextField();
+    	
+    	InsertTheLanguage = new JButton();
+    	InsertTheLanguageDesc = new JButton();
+    	
         setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
 
-        jPanel1.setBorder( BorderFactory.createTitledBorder("Ubica el Archivo Imagen"));
+        jPanel1.setBorder( BorderFactory.createTitledBorder("Choose Files"));
         jPanel1.setLayout(null);
         jPanel1.add(jtfDataPath);
         jtfDataPath.setBounds(20, 30, 350, 19);
@@ -39,7 +52,7 @@ public class WindowLoad extends JFrame {
         jbLExc.setBounds(400, 90, 100, 25);
 
         jbLoad.setText("load");
-      //  jPanel1.add(jbLoad);
+        //jPanel3.add(jbLoad);
         jbLoad.setBounds(460, 30, 70, 25);
 
         getContentPane().add(jPanel1);
@@ -51,37 +64,54 @@ public class WindowLoad extends JFrame {
        // jPanel3.add(jDesktopPane1);
         jDesktopPane1.setBounds(20, 30, 530, 340);
      
-   	JButton InsertLanguage = new JButton();
-	JButton Delete = new JButton();
-	
-	JButton InsertTheLanguage = new JButton();
-	
-	  JTextField LanguageName= new JTextField();
-    	 JTextField LanguageId= new JTextField();
-    	 JTextField LanguageIdDelete= new JTextField();
-    	 JTextField LanguageIdVocabulary= new JTextField();
-    	 JTextField LanguageRow= new JTextField();
+   
+	 LanguageName= new JTextField();
+    	 LanguageId= new JTextField();
+    	LanguageIdDelete= new JTextField();
+    	 LanguageIdVocabulary= new JTextField();
+    	LanguageColumn= new JTextField();
     	 jPanel3.add(InsertLanguage);
     	 jPanel3.add(LanguageName);
          jPanel3.add(LanguageId);
          jPanel3.add(LanguageIdDelete);
-         jPanel3.add(Delete);
+         jPanel3.add(jbDelete);
          jPanel3.add(InsertTheLanguage);
-         jPanel3.add(LanguageRow);
+         jPanel3.add(LanguageColumn);
          jPanel3.add(LanguageIdVocabulary);
-         InsertLanguage.setText("Insert Language");
-         InsertTheLanguage.setText("Insert Vocabulary");
-         Delete.setText("Delete");
+         jPanel3.add(InsertTheLanguageDesc);
+         jPanel3.add(LanguageColumn2);
+         jPanel3.add(LanguageIdVocabulary2);
          
-         InsertLanguage.setBounds(new Rectangle (5,30, 100, 30));
-    	 LanguageName.setBounds(new Rectangle (140,30, 100, 30));
- 		LanguageId.setBounds(new Rectangle (106,30, 30, 30));
- 		Delete.setBounds(new Rectangle (5,90, 100, 30));
+         
+         InsertLanguage.setText("Insert Language");
+         InsertTheLanguage.setText("Insert Words");
+         jbDelete.setText("Delete");
+         InsertTheLanguageDesc.setText("Insert Descriptions");
+         
+         InsertLanguage.setBounds(new Rectangle (5,30, 130, 30));
+    	 LanguageName.setBounds(new Rectangle (175,30, 100, 30));
+ 		LanguageId.setBounds(new Rectangle (140,30, 30, 30));
+ 		jbDelete.setBounds(new Rectangle (5,90, 100, 30));
  		LanguageIdDelete.setBounds(new Rectangle (106,90, 30, 30));
- 		InsertTheLanguage.setBounds(new Rectangle (5,130, 100, 30));
+ 		InsertTheLanguage.setBounds(new Rectangle (5,160, 110, 30));
  		
- 	   LanguageRow.setBounds(new Rectangle (106,130, 25, 30));
-       LanguageIdVocabulary.setBounds(new Rectangle (136,130, 25, 30));
+ 	   LanguageColumn.setBounds(new Rectangle (116,160, 70, 30));
+       LanguageIdVocabulary.setBounds(new Rectangle (190,160, 70, 30));
+       
+       InsertTheLanguageDesc.setBounds(new Rectangle (5,220, 110, 30));
+		
+ 	    LanguageColumn2.setBounds(new Rectangle (116,220, 70, 30));
+       LanguageIdVocabulary2.setBounds(new Rectangle (190,220, 70, 30));
+       
+      LanguageName.setText("\"Name\"");
+      LanguageId.setText("\"ID\"");
+      
+      LanguageIdDelete.setText("\"ID\"");
+      LanguageColumn.setText("\"Column\"");
+      LanguageColumn2.setText("\"Column\"");
+      LanguageIdVocabulary.setText("\"ID\"");
+      LanguageIdVocabulary2.setText("\"ID\"");
+       
         getContentPane().add(jPanel3);
         jPanel3.setBounds(20, 150, 570, 390);
 
@@ -93,6 +123,10 @@ public class WindowLoad extends JFrame {
 		jbExaminar.addActionListener(controlaEventos);
 		jbLExc.addActionListener(controlaEventos);
 		jbLoad.addActionListener(controlaEventos);
+		jbDelete.addActionListener(controlaEventos);
+		InsertTheLanguage.addActionListener(controlaEventos);
+		InsertLanguage.addActionListener(controlaEventos);
+		InsertTheLanguageDesc.addActionListener(controlaEventos);
     }
 
     public static void main(String args[]) {
@@ -108,5 +142,16 @@ public class WindowLoad extends JFrame {
     public JPanel jPanel3;
     public JTextField jtfDataPath;
     public JTextField jtfSqlPath;
-    
+	public JButton InsertTheLanguage;
+	public JButton InsertTheLanguageDesc;
+	public JButton Delete;
+	public JButton InsertLanguage;
+	public JButton jbDelete;
+	 JTextField LanguageName;//= new JTextField();
+	 JTextField LanguageId;//= new JTextField();
+	 JTextField LanguageIdDelete;//= new JTextField();
+	 JTextField LanguageIdVocabulary;//= new JTextField();
+	 JTextField LanguageColumn;//= new JTextField();
+	 JTextField LanguageIdVocabulary2;//= new JTextField();
+	 JTextField LanguageColumn2;//= new JTextField();
 }
