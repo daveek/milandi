@@ -3,24 +3,28 @@ package com.example.pruebavistas;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import com.example.pruebavistas.PersonalEditText;
 
 public class MainActivity extends Activity {
 
 	final public static String MyKey = "mikey";
-	EditText WordText;
+	PersonalEditText WordText;
     String Word;
+  //  final Drawable searchicon = getResources().getDrawable(android.R.drawable.ic_menu_search ); 		
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        WordText=(EditText)findViewById(R.id.editText1);
-        
+        WordText=(PersonalEditText)findViewById(R.id.editText1);
+       // Button searchb=(Button)findViewById(R.id.search);
+        //searchb.setBackgroundDrawable(searchicon);
         // languajes of the spinner
         final String[] languages =
 		        new String[]{"Spanish","English","French","Swahili","Elem5"};
@@ -80,14 +84,14 @@ public class MainActivity extends Activity {
             }
         });
         
-        Button cancel = (Button) findViewById(R.id.delete);
+       /* Button cancel = (Button) findViewById(R.id.delete);
         cancel.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-            	 WordText=(EditText)findViewById(R.id.editText1);
+            	 WordText=(PersonalEditText)findViewById(R.id.editText1);
             	 WordText.setText(null);
             	
             }
-        });
+        });*/
     }
 
     @Override
