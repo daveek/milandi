@@ -76,7 +76,7 @@ public class Loader {
 	                //Obtenemos el valor de la celda
 	            	ValueCell= ActualCell.getContents();
 	            	ValueCell=validateWord1(ValueCell);
-	            	ValueCell=validateWord2(ValueCell);
+	            	//ValueCell=validateWord2(ValueCell);
 	            	Word newWord = new Word(sheetnum+1, x-1, IDLanguage, x-1, ValueCell, x-2);
 	                 //System.out.print(ValueCell+"|");
 	            	ListWords.add(newWord);
@@ -353,7 +353,7 @@ public List<Description> LoadColumDescription(int row, int column, int sheetnum,
 		//id++;
 		
 		//stat.executeUpdate("Select count(*) into Language values ('" +id +"', 'portugues')");
-		System.out.println("count" +id);
+		System.out.println("count ultimo " +id);
 		conn.close();
 		return id;	
 		}

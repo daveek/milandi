@@ -25,10 +25,10 @@ public class LoadInfo {
 	List<Word> milist11=miloader.LoadColum(2, column,1,language);
 	List<Word> milist21=miloader.LoadColum(2, column,2,language);
 	List<Word> milist31=miloader.LoadColum(2, column,3,language);
-	miloader.InsertWords(milist01,1);
-	miloader.InsertWords(milist11,1);
-	miloader.InsertWords(milist21,1);
-	miloader.InsertWords(milist31,1);
+	miloader.InsertWords(milist01,language);
+	miloader.InsertWords(milist11,language);
+	miloader.InsertWords(milist21,language);
+	miloader.InsertWords(milist31,language);
 	}
 	public void loadDescription() throws SQLException{
 		Loader miloader = new Loader(dataPath, sqlPath);
@@ -36,10 +36,10 @@ public class LoadInfo {
 	List<Description> milistDescription11=miloader.LoadColumDescription(2, column, 1, language);
 	List<Description> milistDescription21=miloader.LoadColumDescription(2, column, 2, language);
 	List<Description> milistDescription31=miloader.LoadColumDescription(2, column, 3, language);
-	miloader.InsertDescriptions(milistDescription01, 1);	
-	miloader.InsertDescriptions(milistDescription11, 1);		
-	miloader.InsertDescriptions(milistDescription21, 1);
-	miloader.InsertDescriptions(milistDescription31, 1);
+	miloader.InsertDescriptions(milistDescription01, language);	
+	miloader.InsertDescriptions(milistDescription11, language);		
+	miloader.InsertDescriptions(milistDescription21, language);
+	miloader.InsertDescriptions(milistDescription31,language);
 	}
 	
 	public void insertLang(int id, String Name) throws SQLException{
